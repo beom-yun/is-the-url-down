@@ -3,11 +3,21 @@ import requests
 
 
 def check_url(url):
-    pass
+    if is_it_valid_url(url):
+        try:
+            if not ('http://' in url or 'https://' in url):
+                url = 'http://' + url
+            if requests.get(url).status_code != 200:
+                raise Exception()
+            print(f'{url} is up!')
+        except:
+            print(f'{url} is down!')
+    else:
+        print(f'{url} is not a valid URL.')
 
 
-def is_it_right_url(url):
-    pass
+def is_it_valid_url(url):
+    return True if '.' in url.replace('www.', '') else False
 
 
 def should_i_retry():
@@ -20,6 +30,7 @@ def should_i_retry():
 
 
 while True:
+    os.system('clear')
     print('Welcome to IsItDown.py!')
     print('Please write a URL or URLs you want to check. (saperated by comma)')
 
@@ -27,4 +38,5 @@ while True:
         check_url(input_url)
 
     if not should_i_retry():
+        print('Bye!')
         break
